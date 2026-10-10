@@ -1,0 +1,155 @@
+
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Smart Exam BD অনলাইন MCQ পরীক্ষা">
+  <title>অনলাইন পরীক্ষা | Smart Exam BD</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="index.html">
+      <span class="brand-icon">S</span>
+      <span>Smart Exam <span class="brand-accent">BD</span></span>
+    </a>
+    <a class="header-link" href="index.html">← হোম পেজ</a>
+  </header>
+
+  <main class="exam-main">
+    <section class="exam-intro">
+      <span class="eyebrow">YOUR PRACTICE SPACE</span>
+      <h1>চলো, পরীক্ষা শুরু করি!</h1>
+      <p>শ্রেণি ও বিষয় নির্বাচন করে তোমার প্রস্তুতি যাচাই করো।</p>
+    </section>
+
+    <section id="setup-panel" class="panel setup-panel">
+      <h2>পরীক্ষার তথ্য</h2>
+
+      <div class="form-grid">
+        <div class="form-field">
+          <label for="class-select">শ্রেণি নির্বাচন</label>
+          <select id="class-select">
+            <option value="">শ্রেণি নির্বাচন করো</option>
+            <option value="6">ষষ্ঠ শ্রেণি</option>
+            <option value="7">সপ্তম শ্রেণি</option>
+            <option value="8">অষ্টম শ্রেণি</option>
+            <option value="9">নবম শ্রেণি</option>
+            <option value="10">দশম শ্রেণি</option>
+          </select>
+        </div>
+
+        <div id="group-field" class="form-field hidden">
+          <label for="group-select">বিভাগ নির্বাচন</label>
+          <select id="group-select">
+            <option value="">বিভাগ নির্বাচন করো</option>
+            <option value="বিজ্ঞান">বিজ্ঞান</option>
+            <option value="মানবিক">মানবিক</option>
+            <option value="ব্যবসায় শিক্ষা">ব্যবসায় শিক্ষা</option>
+          </select>
+        </div>
+
+        <div class="form-field">
+          <label for="subject-select">বিষয় নির্বাচন</label>
+          <select id="subject-select" disabled>
+            <option value="">আগে শ্রেণি নির্বাচন করো</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-field timer-setting">
+        <label for="duration-select">পরীক্ষার সময়</label>
+        <select id="duration-select">
+          <option value="5">৫ মিনিট</option>
+          <option value="10" selected>১০ মিনিট</option>
+          <option value="15">১৫ মিনিট</option>
+          <option value="30">৩০ মিনিট</option>
+        </select>
+      </div>
+
+      <p class="helper-text">
+        পরীক্ষার প্রশ্ন Supabase ডেটাবেজ থেকে লোড হবে।
+      </p>
+      <button id="start-btn" class="btn btn-primary btn-full">
+        পরীক্ষা শুরু করো →
+      </button>
+      <p id="setup-message" class="status-message" role="status"></p>
+    </section>
+
+    <section id="quiz-panel" class="panel quiz-panel hidden">
+      <div class="quiz-topline">
+        <div>
+          <span class="eyebrow" id="quiz-subject-label">বিষয়</span>
+          <h2 id="quiz-title">অনুশীলন পরীক্ষা</h2>
+        </div>
+        <div class="timer-box">
+          <span>সময় বাকি</span>
+          <strong id="timer">10:00</strong>
+        </div>
+      </div>
+
+      <div class="progress-row">
+        <span id="question-count">প্রশ্ন ১</span>
+        <span id="answered-count">উত্তর দেওয়া হয়েছে: ০</span>
+      </div>
+      <div class="quiz-progress"><span id="progress-bar"></span></div>
+
+      <div class="question-card">
+        <p id="question-text" class="question-text"></p>
+        <div id="options-list" class="options-list"></div>
+      </div>
+
+      <div class="quiz-controls">
+        <button id="previous-btn" class="btn btn-secondary">← আগের প্রশ্ন</button>
+        <button id="next-btn" class="btn btn-primary">পরের প্রশ্ন →</button>
+      </div>
+
+      <div class="submit-row">
+        <button id="submit-btn" class="btn btn-danger">পরীক্ষা জমা দাও</button>
+        <button id="quit-btn" class="text-button">পরীক্ষা ছেড়ে দাও</button>
+      </div>
+    </section>
+
+    <section id="result-panel" class="panel result-panel hidden">
+      <div class="result-symbol">✓</div>
+      <span class="eyebrow">YOUR RESULT</span>
+      <h2>পরীক্ষা সম্পন্ন!</h2>
+      <p id="result-summary">তোমার ফলাফল নিচে দেওয়া হলো।</p>
+
+      <div class="score-card">
+        <span>তোমার স্কোর</span>
+        <strong id="score-value">০ / ০</strong>
+        <div class="score-track"><span id="score-bar"></span></div>
+        <b id="percentage-value">০%</b>
+      </div>
+
+      <div class="result-stats">
+        <div><strong id="correct-value">০</strong><span>সঠিক</span></div>
+        <div><strong id="wrong-value">০</strong><span>ভুল</span></div>
+        <div><strong id="skipped-value">০</strong><span>উত্তর দাওনি</span></div>
+      </div>
+
+      <div class="review-heading">
+        <h3>উত্তর পর্যালোচনা</h3>
+        <p>প্রতিটি প্রশ্নের সঠিক উত্তর ও ব্যাখ্যা দেখো।</p>
+      </div>
+      <div id="review-list" class="review-list"></div>
+
+      <div class="result-actions">
+        <button id="retry-btn" class="btn btn-primary">আবার পরীক্ষা দাও</button>
+        <a class="btn btn-secondary" href="index.html">হোম পেজে যাও</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <a class="brand footer-brand" href="index.html">Smart Exam <span class="brand-accent">BD</span></a>
+    <small>© <span id="year"></span> Smart Exam BD</small>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="supabase-config.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
